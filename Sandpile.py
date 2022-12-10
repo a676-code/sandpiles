@@ -77,7 +77,7 @@ class Sandpile:
                 self.n5 += 1
                 self.n9 += 1
             if 7 in values:
-                self.n4 -= 4
+                self.n7 -= 4
                 self.n4 += 1
                 self.n8 += 1
             if 8 in values:
