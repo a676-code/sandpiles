@@ -21,6 +21,6 @@ threeinverse = Sandpile(3, 3, 3, 3, 3, 1, 3, 3, 3, 3)
 
 
 if (zero == (threes + threeinverse).topple()):
-    print("YES!")
+    print("EQUAL!")
 else:
-    print("NO!")
+    print("NOT EQUAL!")
