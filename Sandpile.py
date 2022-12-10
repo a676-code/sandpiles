@@ -90,12 +90,14 @@ class Sandpile:
                 self.n6 += 1
                 self.n8 += 1
         return self
+
     def print(self):
         print(
             "\n",self.n1," ", self.n2, " ", self.n3,"\n", 
             self.n4," ", self.n5, " ", self.n6,"\n", 
             self.n7," ", self.n8, " ", self.n9
         )
+        
     def add(self, s):
         self.n1 += s.n1
         self.n2 += s.n2

@@ -11,6 +11,8 @@ threes.add(zero).topple().print()
 s1.add(zero).topple().print()
 s2.add(zero).topple().print()
 
-a = Sandpile(3, 1, 3, 1, 3, 3, 3, 1, 3, 1)
+threeinverse = Sandpile(3, 3, 3, 3, 3, 1, 3, 3, 3, 3)
 
-threes.add(a).topple().print()
+threeinverse.print()
+
+threes.add(threeinverse).topple().print()
