@@ -1,3 +1,8 @@
+# Sandpile unequal maxes exception
+class UnequalMaxesException(Exception):
+    "Raised when two combined sandpiles have different maxes"
+    pass
+
 class Sandpile:
     Max = -1
     n1 = -1
@@ -21,6 +26,36 @@ class Sandpile:
         self.n7 = n7
         self.n8 = n8
         self.n9 = n9
+
+    def getMax(self):
+        return self.Max
+
+    def getn1(self):
+        return self.n1
+
+    def getn2(self):
+        return self.n2
+
+    def getn3(self):
+        return self.n3
+
+    def getn4(self):
+        return self.n4
+
+    def getn5(self):
+        return self.n5
+
+    def getn6(self):
+        return self.n6
+
+    def getn7(self):
+        return self.n7
+
+    def getn8(self):
+        return self.n8
+
+    def getn9(self):
+        return self.n9
     
     def checkValues(self):
         values = []
@@ -97,15 +132,44 @@ class Sandpile:
             self.n4," ", self.n5, " ", self.n6,"\n", 
             self.n7," ", self.n8, " ", self.n9
         )
-        
-    def add(self, s):
-        self.n1 += s.n1
-        self.n2 += s.n2
-        self.n3 += s.n3
-        self.n4 += s.n4
-        self.n5 += s.n5
-        self.n6 += s.n6
-        self.n7 += s.n7
-        self.n8 += s.n8
-        self.n9 += s.n9
-        return self
+
+    def __add__(self, o):
+        try:
+            if self.Max != o.Max:
+                raise UnequalMaxesException
+            else:
+                N1 = self.n1 + o.n1
+                N2 = self.n2 + o.n2
+                N3 = self.n3 + o.n3
+                N4 = self.n4 + o.n4
+                N5 = self.n5 + o.n5
+                N6 = self.n6 + o.n6
+                N7 = self.n7 + o.n7
+                N8 = self.n8 + o.n8
+                N9 = self.n9 + o.n9
+                return Sandpile(self.Max, N1, N2, N3, N4, N5, N6, N7, N8, N9)
+        except UnequalMaxesException:
+            print("Exception occurred: Maxes not equal. Cannot add sandpiles")
+
+    def __eq__(self, o):
+        try:
+            if self.Max != o.Max:
+                raise UnequalMaxesException
+            else:
+                if (
+                    self.Max == o.Max and 
+                    self.n1 == o.n1 and
+                    self.n2 == o.n2 and
+                    self.n3 == o.n3 and
+                    self.n4 == o.n4 and
+                    self.n5 == o.n5 and
+                    self.n6 == o.n6 and
+                    self.n7 == o.n7 and
+                    self.n8 == o.n8 and
+                    self.n9 == o.n9
+                    ):
+                    return True
+                else:
+                    return False
+        except UnequalMaxesException:
+            print("Exception occurred: Maxes not equal. Cannot compare sandpiles")
