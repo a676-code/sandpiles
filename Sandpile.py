@@ -3,173 +3,138 @@ class UnequalMaxesException(Exception):
     "Raised when two combined sandpiles have different maxes"
     pass
 
+# Sandpile unequal sizes exception
+class UnequalSizesException(Exception):
+    "Raised when two combined sandpiles have different sizes"
+    pass
+
 class Sandpile:
     Max = -1
-    n1 = -1
-    n2 = -1
-    n3 = -1
-    n4 = -1
-    n5 = -1
-    n6 = -1
-    n7 = -1
-    n8 = -1
-    n9 = -1
+    size = -1
+    values = []
 
-    def __init__(self, Max, n1, n2, n3, n4, n5, n6, n7, n8, n9):
+    def __init__(self, Max, size, values):
         self.Max = Max
-        self.n1 = n1
-        self.n2 = n2
-        self.n3 = n3
-        self.n4 = n4
-        self.n5 = n5
-        self.n6 = n6
-        self.n7 = n7
-        self.n8 = n8
-        self.n9 = n9
+        self.size = size
+        self.values = values
 
     def getMax(self):
         return self.Max
+        
+    def getSize(self):
+        return self.size
 
-    def getn1(self):
-        return self.n1
-
-    def getn2(self):
-        return self.n2
-
-    def getn3(self):
-        return self.n3
-
-    def getn4(self):
-        return self.n4
-
-    def getn5(self):
-        return self.n5
-
-    def getn6(self):
-        return self.n6
-
-    def getn7(self):
-        return self.n7
-
-    def getn8(self):
-        return self.n8
-
-    def getn9(self):
-        return self.n9
+    def getValues(self):
+        return self.values
     
     def checkValues(self):
-        values = []
-        if (self.n1 > self.Max):
-            values.append(1)
-        if (self.n2 > self.Max):
-            values.append(2)
-        if (self.n3 > self.Max):
-            values.append(3)
-        if (self.n4 > self.Max):
-            values.append(4)
-        if (self.n5 > self.Max):
-            values.append(5)
-        if (self.n6 > self.Max):
-            values.append(6)
-        if (self.n7 > self.Max):
-            values.append(7)
-        if (self.n8 > self.Max):
-            values.append(8)
-        if (self.n9 > self.Max):
-            values.append(9)
-        return values
+        array = []
+        for i in range(self.size):
+            for j in range(self.size):
+                if (self.values[i][j] > self.Max):
+                    array.append((i, j))
+        return array
 
     def topple(self):
         while self.checkValues():
-            values = self.checkValues()
-            if 1 in values:
-                self.n1 -= 4
-                self.n2 += 1
-                self.n4 += 1
-            if 2 in values:
-                self.n2 -= 4
-                self.n1 += 1
-                self.n3 += 1
-                self.n5 += 1
-            if 3 in values:
-                self.n3 -= 4
-                self.n2 += 1
-                self.n6 += 1
-            if 4 in values:
-                self.n4 -= 4
-                self.n1 += 1
-                self.n5 += 1
-                self.n7 += 1
-            if 5 in values:
-                self.n5 -= 4
-                self.n2 += 1
-                self.n4 += 1
-                self.n6 += 1
-                self.n8 += 1
-            if 6 in values:
-                self.n6 -= 4
-                self.n3 += 1
-                self.n5 += 1
-                self.n9 += 1
-            if 7 in values:
-                self.n7 -= 4
-                self.n4 += 1
-                self.n8 += 1
-            if 8 in values:
-                self.n8 -= 4
-                self.n7 += 1
-                self.n5 += 1
-                self.n9 += 1
-            if 9 in values:
-                self.n9 -= 4
-                self.n6 += 1
-                self.n8 += 1
+            array = self.checkValues()
+            for p in array:
+                self.values[p[0]][p[1]] -= 4
+                if p[0] == 0:
+                    if p[1] == 0: # top left
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    elif p[1] < self.size - 1: # top
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    else: # top right
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
+                elif p[0] < self.size - 1 :
+                    if p[1] == 0: # left
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    elif p[1] < self.size - 1: # center
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    else: # right
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0] + 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
+                else:
+                    if p[1] == 0: # bottom left
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    elif p[1] < self.size - 1: # bottom
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
+                        self.values[p[0]][p[1] + 1] += 1
+                    else: # bottom right
+                        self.values[p[0] - 1][p[1]] += 1
+                        self.values[p[0]][p[1] - 1] += 1
         return self
 
     def print(self):
-        print(
-            "\n",self.n1," ", self.n2, " ", self.n3,"\n", 
-            self.n4," ", self.n5, " ", self.n6,"\n", 
-            self.n7," ", self.n8, " ", self.n9
-        )
+        for i in range(self.size):
+            print("\n", end='')
+            for j in range(self.size):
+                print(self.values[i][j], end=' ')
+        print("\n", end='')
 
     def __add__(self, o):
         try:
             if self.Max != o.Max:
                 raise UnequalMaxesException
+            elif self.Max != o.Max:
+                raise UnequalSizesException
             else:
-                N1 = self.n1 + o.n1
-                N2 = self.n2 + o.n2
-                N3 = self.n3 + o.n3
-                N4 = self.n4 + o.n4
-                N5 = self.n5 + o.n5
-                N6 = self.n6 + o.n6
-                N7 = self.n7 + o.n7
-                N8 = self.n8 + o.n8
-                N9 = self.n9 + o.n9
-                return Sandpile(self.Max, N1, N2, N3, N4, N5, N6, N7, N8, N9)
+                array = []
+                for i in range(self.size):
+                    row = []
+                    array.append(row)
+                    for j in range(self.size):
+                        array[i].append(self.values[i][j] + o.values[i][j])
+                return Sandpile(self.Max, self.size, array)
         except UnequalMaxesException:
             print("Exception occurred: Maxes not equal. Cannot add sandpiles")
+        except UnequalSizesException:
+            print("Exception occurred: Sizes not equal. Cannot add sandpiles")
 
     def __eq__(self, o):
         try:
             if self.Max != o.Max:
                 raise UnequalMaxesException
+            elif self.size != o.size:
+                raise UnequalSizesException
             else:
-                if (
-                    self.Max == o.Max and 
-                    self.n1 == o.n1 and
-                    self.n2 == o.n2 and
-                    self.n3 == o.n3 and
-                    self.n4 == o.n4 and
-                    self.n5 == o.n5 and
-                    self.n6 == o.n6 and
-                    self.n7 == o.n7 and
-                    self.n8 == o.n8 and
-                    self.n9 == o.n9
-                    ):
-                    return True
-                else:
-                    return False
+                for i in range(self.size):
+                    for j in range(self.size):
+                        if self.values[i][j] != o.values[i][j]:
+                            return False
+                return True
         except UnequalMaxesException:
             print("Exception occurred: Maxes not equal. Cannot compare sandpiles")
+        except UnequalSizesException:
+            print("Exception occurred: Sizes not equal. Cannot compare sandpiles")
+
+    def readFile(self):
+        fileName = input("Enter a file name: ")
+        file = open(fileName, "r")
+        data = file.readlines()
+        for i in range(len(data)):
+            data[i] = data[i].strip("\n")
+        sandpile = []
+        sandpile.append(data[0])
+        sandpile.append(data[1])
+        values = []
+        for i in range(2, len(data)):
+            values.append(data[i].split(","))
+        sandpile.append(values)
+        self.Max = sandpile[0]
+        self.size = sandpile[1]
+        self.values = sandpile[2]
+        return self
