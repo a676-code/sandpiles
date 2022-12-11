@@ -1,7 +1,4 @@
 from Sandpile import Sandpile
-import numpy as np
-
-# np.set_printoptions(formatter={'int': color_int})
 
 twozero = Sandpile(3, 2, [[2, 2], [2, 2]])
 
