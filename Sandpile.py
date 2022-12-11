@@ -91,7 +91,7 @@ class Sandpile:
         for i in range(int(self.size)):
             print("\n", end='')
             for j in range(int(self.size)):
-                print(self.color_int(self.values[i][j]), end = ' ')
+                print(self.color_int(int(self.values[i][j])), end = ' ')
         print("\n", end='')
 
     def readFile(self, fileName = None):
