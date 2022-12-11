@@ -55,14 +55,6 @@ class Sandpile:
             print("Exception occurred: Maxes not equal. Cannot add sandpiles")
         except UnequalSizesException:
             print("Exception occurred: Sizes not equal. Cannot add sandpiles")
-    
-    def checkValues(self):
-        array = []
-        for i in range(self.height):
-            for j in range(self.width):
-                if (int(self.values[i][j]) > self.Max):
-                    array.append((i, j))
-        return array
 
     def color_int(self, x):
         if x == 0:
@@ -95,6 +87,17 @@ class Sandpile:
             print("Exception occurred: Maxes not equal. Cannot compare sandpiles")
         except UnequalSizesException:
             print("Exception occurred: Sizes not equal. Cannot compare sandpiles")
+    
+    def getToppleArray(self):
+        array = []
+        for i in range(self.height):
+            for j in range(self.width):
+                if (int(self.values[i][j]) > self.Max):
+                    array.append((i, j))
+        return array
+
+    # def getToppleArray(self):
+    #     return [[[i > self.Max] for i in row] for row in self.values]
 
     def print(self):
         for i in range(self.height):
@@ -129,9 +132,9 @@ class Sandpile:
         return self
 
     def topple(self):
-        while self.checkValues():
-            array = self.checkValues()
-            for p in array:
+        while self.getToppleArray():
+            topple = self.getToppleArray()
+            for p in topple:
                 self.values[p[0]][p[1]] -= 4
                 if p[0] == 0:
                     if p[1] == 0: # top left
