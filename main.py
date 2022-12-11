@@ -1,7 +1,6 @@
 from Sandpile import Sandpile
 
-# s1 = Sandpile(3, 2, 2, 0, 2, 1, 1, 0, 1, 3)
-# s2 = Sandpile(3, 2, 1, 3, 1, 0, 1, 0, 1, 0)
+twozero = Sandpile(3, 2, [[2, 2], [2, 2]])
 
 threes = Sandpile(3, 3, [[3, 3, 3], [3, 3, 3], [3, 3, 3]])
 threezero = Sandpile(3, 3, [[2, 1, 2], [1, 0, 1], [2, 1, 2]])
@@ -30,4 +29,6 @@ if (threezero == (threes + threeinverse).topple()):
 else:
     print("NOT EQUAL!")
 
-# zero.readFile()
+blank = Sandpile(3, 3, [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]])
+
+blank.readFile().print()

@@ -137,3 +137,4 @@ class Sandpile:
         self.Max = sandpile[0]
         self.size = sandpile[1]
         self.values = sandpile[2]
+        return self
