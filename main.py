@@ -29,6 +29,6 @@ if (threezero == (threes + threeinverse).topple()):
 else:
     print("NOT EQUAL!")
 
-blank = Sandpile(3, 3, [[-1, -1, -1], [-1, -1, -1], [-1, -1, -1]])
+blank = Sandpile(3, 3, [[], [], []])
 
-blank.readFile().print()
+blank.readFile()

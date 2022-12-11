@@ -79,9 +79,9 @@ class Sandpile:
         return self
 
     def print(self):
-        for i in range(self.size):
+        for i in range(int(self.size)):
             print("\n", end='')
-            for j in range(self.size):
+            for j in range(int(self.size)):
                 print(self.values[i][j], end=' ')
         print("\n", end='')
 
