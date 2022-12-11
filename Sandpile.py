@@ -121,8 +121,9 @@ class Sandpile:
         except UnequalSizesException:
             print("Exception occurred: Sizes not equal. Cannot compare sandpiles")
 
-    def readFile(self):
-        fileName = input("Enter a file name: ")
+    def readFile(self, fileName = None):
+        if fileName is None:
+            fileName = input("Enter a file name: ")
         file = open(fileName, "r")
         data = file.readlines()
         for i in range(len(data)):

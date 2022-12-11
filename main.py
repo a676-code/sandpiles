@@ -30,5 +30,7 @@ else:
     print("NOT EQUAL!")
 
 blank = Sandpile(3, 3, [[], [], []])
+blank.readFile("threes_3.csv")
 
-blank.readFile()
+blank2 = Sandpile(3, 5, [[], [], [], [], []])
+blank2.readFile("fivezero.csv")
