@@ -13,19 +13,24 @@ class UnequalSizesException(Exception):
 
 class Sandpile:
     Max = -1
-    size = -1
+    height = -1
+    width = -1
     values = []
 
-    def __init__(self, Max, size, values):
+    def __init__(self, Max, height, width, values):
         self.Max = Max
-        self.size = size
+        self.height = height
+        self.width = width
         self.values = values
 
     def getMax(self):
         return self.Max
         
-    def getSize(self):
-        return self.size
+    def getHeight(self):
+        return self.height
+        
+    def getWidth(self):
+        return self.width
 
     def getValues(self):
         return self.values
@@ -34,16 +39,18 @@ class Sandpile:
         try:
             if self.Max != o.Max:
                 raise UnequalMaxesException
-            elif self.Max != o.Max:
+            elif self.height != o.height:
+                raise UnequalSizesException
+            elif self.width != o.width:
                 raise UnequalSizesException
             else:
                 array = []
-                for i in range(self.size):
+                for i in range(self.height):
                     row = []
                     array.append(row)
-                    for j in range(self.size):
+                    for j in range(self.width):
                         array[i].append(self.values[i][j] + o.values[i][j])
-                return Sandpile(self.Max, self.size, array)
+                return Sandpile(self.Max, self.height, self.width, array)
         except UnequalMaxesException:
             print("Exception occurred: Maxes not equal. Cannot add sandpiles")
         except UnequalSizesException:
@@ -51,9 +58,9 @@ class Sandpile:
     
     def checkValues(self):
         array = []
-        for i in range(self.size):
-            for j in range(self.size):
-                if (self.values[i][j] > self.Max):
+        for i in range(self.height):
+            for j in range(self.width):
+                if (int(self.values[i][j]) > self.Max):
                     array.append((i, j))
         return array
 
@@ -74,11 +81,13 @@ class Sandpile:
         try:
             if self.Max != o.Max:
                 raise UnequalMaxesException
-            elif self.size != o.size:
+            elif self.height != o.height:
+                raise UnequalSizesException
+            elif self.width != o.width:
                 raise UnequalSizesException
             else:
-                for i in range(self.size):
-                    for j in range(self.size):
+                for i in range(self.height):
+                    for j in range(self.width):
                         if self.values[i][j] != o.values[i][j]:
                             return False
                 return True
@@ -88,10 +97,10 @@ class Sandpile:
             print("Exception occurred: Sizes not equal. Cannot compare sandpiles")
 
     def print(self):
-        for i in range(int(self.size)):
+        for i in range(self.height):
             print("\n", end='')
-            for j in range(int(self.size)):
-                print(self.color_int(int(self.values[i][j])), end = ' ')
+            for j in range(self.width):
+                print(self.color_int(self.values[i][j]), end = ' ')
         print("\n", end='')
 
     def readFile(self, fileName = None):
@@ -103,14 +112,20 @@ class Sandpile:
             data[i] = data[i].strip("\n")
         sandpile = []
         sandpile.append(data[0])
-        sandpile.append(data[1])
+        size = data[1].split(",")
+        sandpile.append(int(size[0]))
+        sandpile.append(int(size[1]))
         values = []
         for i in range(2, len(data)):
             values.append(data[i].split(","))
+        for i in range(sandpile[1]):
+            for j in range(sandpile[2]):
+                values[i][j] = int(values[i][j])        
         sandpile.append(values)
-        self.Max = sandpile[0]
-        self.size = sandpile[1]
-        self.values = sandpile[2]
+        self.Max = int(sandpile[0])
+        self.height = int(sandpile[1])
+        self.width = int(sandpile[2])
+        self.values = sandpile[3]
         return self
 
     def topple(self):
@@ -122,19 +137,19 @@ class Sandpile:
                     if p[1] == 0: # top left
                         self.values[p[0] + 1][p[1]] += 1
                         self.values[p[0]][p[1] + 1] += 1
-                    elif p[1] < self.size - 1: # top
+                    elif p[1] < self.width - 1: # top
                         self.values[p[0] + 1][p[1]] += 1
                         self.values[p[0]][p[1] - 1] += 1
                         self.values[p[0]][p[1] + 1] += 1
                     else: # top right
                         self.values[p[0] + 1][p[1]] += 1
                         self.values[p[0]][p[1] - 1] += 1
-                elif p[0] < self.size - 1 :
+                elif p[0] < self.height - 1 :
                     if p[1] == 0: # left
                         self.values[p[0] - 1][p[1]] += 1
                         self.values[p[0] + 1][p[1]] += 1
                         self.values[p[0]][p[1] + 1] += 1
-                    elif p[1] < self.size - 1: # center
+                    elif p[1] < self.width - 1: # center
                         self.values[p[0] - 1][p[1]] += 1
                         self.values[p[0] + 1][p[1]] += 1
                         self.values[p[0]][p[1] - 1] += 1
@@ -147,7 +162,7 @@ class Sandpile:
                     if p[1] == 0: # bottom left
                         self.values[p[0] - 1][p[1]] += 1
                         self.values[p[0]][p[1] + 1] += 1
-                    elif p[1] < self.size - 1: # bottom
+                    elif p[1] < self.width - 1: # bottom
                         self.values[p[0] - 1][p[1]] += 1
                         self.values[p[0]][p[1] - 1] += 1
                         self.values[p[0]][p[1] + 1] += 1
