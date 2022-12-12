@@ -1,5 +1,6 @@
 import numpy as np
 import colorama
+from colorama import Style, Back
 
 # Sandpile unequal maxes exception
 class UnequalMaxesException(Exception):
@@ -56,17 +57,29 @@ class Sandpile:
         except UnequalSizesException:
             print("Exception occurred: Sizes not equal. Cannot add sandpiles")
 
-    def color_int(self, x):
-        if x == 0:
-            c = colorama.Fore.BLACK
-        elif x == 1:
-            c = colorama.Fore.YELLOW
-        elif x == 2:
-            c = colorama.Fore.BLUE
-        elif x == 3:
-            c = colorama.Fore.RED
-        else:
-            c = colorama.Fore.GREEN
+    def color_int(self, x, style = "Back"):
+        if style == "Fore":
+            if x == 0:
+                c = colorama.Fore.BLACK
+            elif x == 1:
+                c = colorama.Fore.YELLOW
+            elif x == 2:
+                c = colorama.Fore.BLUE
+            elif x == 3:
+                c = colorama.Fore.RED
+            else:
+                c = colorama.Back.GREEN
+        elif style == "Back":
+            if x == 0:
+                c = colorama.Back.BLACK
+            elif x == 1:
+                c = colorama.Back.YELLOW
+            elif x == 2:
+                c = colorama.Back.BLUE
+            elif x == 3:
+                c = colorama.Back.RED
+            else:
+                c = colorama.Back.GREEN
         return f'{c}{x}'
 
     def __eq__(self, o):
@@ -99,11 +112,13 @@ class Sandpile:
     # def getToppleArray(self):
     #     return [[[i > self.Max] for i in row] for row in self.values]
 
-    def print(self):
+    def print(self, style = "Back"):
         for i in range(self.height):
             print("\n", end='')
             for j in range(self.width):
-                print(self.color_int(self.values[i][j]), end = ' ')
+                print(self.color_int(self.values[i][j], style), end = ' ')
+                if style == "Back":
+                    print(Style.RESET_ALL, end='')
         print("\n", end='')
 
     def readFile(self, fileName = None):
